@@ -1,0 +1,1481 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Megaexe Post Management",
+      "description": "Megaexe project task",
+      "version": "1.0",
+      "contact": {
+  
+      }
+    },
+    "tags": [],
+    "servers": [],
+    "components": {
+      "securitySchemes": {
+        "bearer": {
+          "scheme": "bearer",
+          "bearerFormat": "JWT",
+          "type": "http"
+        }
+      },
+      "schemas": {
+        "RegisterUserDto": {
+          "type": "object",
+          "properties": {
+            "first_name": {
+              "type": "string"
+            },
+            "last_name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string"
+            },
+            "phone_number": {
+              "type": "string"
+            },
+            "gender": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "first_name",
+            "last_name",
+            "email",
+            "image",
+            "phone_number"
+          ]
+        },
+        "LoginUserDto": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "email",
+            "password"
+          ]
+        },
+        "CreateUserDto": {
+          "type": "object",
+          "properties": {
+            "role": {
+              "type": "string"
+            },
+            "first_name": {
+              "type": "string"
+            },
+            "last_name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string"
+            },
+            "phone_number": {
+              "type": "string"
+            },
+            "gender": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "role",
+            "first_name",
+            "last_name",
+            "email",
+            "image",
+            "phone_number"
+          ]
+        },
+        "UpdateUserDto": {
+          "type": "object",
+          "properties": {
+            "role_id": {
+              "type": "string"
+            },
+            "permission_id": {
+              "type": "string"
+            },
+            "first_name": {
+              "type": "string"
+            },
+            "last_name": {
+              "type": "string"
+            },
+            "username": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string"
+            },
+            "phone_number": {
+              "type": "string"
+            },
+            "home_address": {
+              "type": "string"
+            },
+            "state_of_residence": {
+              "type": "string"
+            },
+            "lga": {
+              "type": "string"
+            },
+            "geo_political_zone": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "role_id",
+            "permission_id",
+            "first_name",
+            "last_name",
+            "username",
+            "email",
+            "image",
+            "phone_number"
+          ]
+        },
+        "CreatePostCategoryDto": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "description"
+          ]
+        },
+        "UpdatePostCategoryDto": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        },
+        "CreatePostDto": {
+          "type": "object",
+          "properties": {
+            "post_category_id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "post_category_id",
+            "title",
+            "content",
+            "image"
+          ]
+        },
+        "UpdatePostDto": {
+          "type": "object",
+          "properties": {
+            "post_category_id": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "content": {
+              "type": "string"
+            },
+            "image": {
+              "type": "string"
+            }
+          }
+        },
+        "CreateVotingDto": {
+          "type": "object",
+          "properties": {
+            "post_id": {
+              "type": "string"
+            },
+            "vote_type": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "post_id",
+            "vote_type"
+          ]
+        },
+        "CreateCommentDto": {
+          "type": "object",
+          "properties": {
+            "post_id": {
+              "type": "string"
+            },
+            "comment": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "post_id",
+            "comment"
+          ]
+        },
+        "UpdateCommentDto": {
+          "type": "object",
+          "properties": {
+            "post_id": {
+              "type": "string"
+            },
+            "comment": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "paths": {
+      "/api/v1/health": {
+        "get": {
+          "operationId": "check",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": "The Health Check is successful",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "example": "ok"
+                      },
+                      "info": {
+                        "type": "object",
+                        "example": {
+                          "database": {
+                            "status": "up"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "type": "string"
+                            }
+                          },
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        },
+                        "nullable": true
+                      },
+                      "error": {
+                        "type": "object",
+                        "example": {
+  
+                        },
+                        "additionalProperties": {
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "type": "string"
+                            }
+                          },
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        },
+                        "nullable": true
+                      },
+                      "details": {
+                        "type": "object",
+                        "example": {
+                          "database": {
+                            "status": "up"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "type": "string"
+                            }
+                          },
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "503": {
+              "description": "The Health Check is not successful",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "example": "error"
+                      },
+                      "info": {
+                        "type": "object",
+                        "example": {
+                          "database": {
+                            "status": "up"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "type": "string"
+                            }
+                          },
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        },
+                        "nullable": true
+                      },
+                      "error": {
+                        "type": "object",
+                        "example": {
+                          "redis": {
+                            "status": "down",
+                            "message": "Could not connect"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "type": "string"
+                            }
+                          },
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        },
+                        "nullable": true
+                      },
+                      "details": {
+                        "type": "object",
+                        "example": {
+                          "database": {
+                            "status": "up"
+                          },
+                          "redis": {
+                            "status": "down",
+                            "message": "Could not connect"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "type": "string"
+                            }
+                          },
+                          "additionalProperties": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/v1/auth/user/registration": {
+        "post": {
+          "operationId": "userRegister",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterUserDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Authentication"
+          ]
+        }
+      },
+      "/api/v1/auth/admin/registration": {
+        "post": {
+          "operationId": "adminRegister",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterUserDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Authentication"
+          ]
+        }
+      },
+      "/api/v1/auth/login": {
+        "post": {
+          "operationId": "login",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginUserDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Authentication"
+          ]
+        }
+      },
+      "/api/v1/auth/profile": {
+        "get": {
+          "operationId": "user",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Authentication"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        }
+      },
+      "/api/v1/users": {
+        "post": {
+          "operationId": "create",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateUserDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "User Managements"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        },
+        "get": {
+          "operationId": "findAll",
+          "parameters": [
+            {
+              "name": "page",
+              "required": true,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "name": "per_page",
+              "required": true,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "name": "query",
+              "required": true,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "from",
+              "required": true,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "to",
+              "required": true,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "User Managements"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        }
+      },
+      "/api/v1/users/search": {
+        "get": {
+          "operationId": "search",
+          "parameters": [
+            {
+              "name": "query",
+              "required": true,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "per_page",
+              "required": true,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "User Managements"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        }
+      },
+      "/api/v1/users/{id}": {
+        "get": {
+          "operationId": "findOne",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "User Managements"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        },
+        "patch": {
+          "operationId": "update",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "User Managements"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        }
+      },
+      "/api/v1/post-category": {
+        "post": {
+          "operationId": "create",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePostCategoryDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Post Category"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        },
+        "get": {
+          "operationId": "findAll",
+          "parameters": [
+            {
+              "name": "page",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "name": "per_page",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "name": "search",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Post Category"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        }
+      },
+      "/api/v1/post-category/active": {
+        "get": {
+          "operationId": "findAllActive",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Post Category"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        }
+      },
+      "/api/v1/post-category/{id}": {
+        "get": {
+          "operationId": "findOne",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Post Category"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        },
+        "patch": {
+          "operationId": "update",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePostCategoryDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Post Category"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        },
+        "delete": {
+          "operationId": "remove",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Post Category"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        }
+      },
+      "/api/v1/post": {
+        "post": {
+          "operationId": "create",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePostDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Post Management"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        },
+        "get": {
+          "operationId": "findAll",
+          "parameters": [
+            {
+              "name": "page",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "name": "per_page",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "name": "category_id",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "search",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "from",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "to",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Post Management"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        }
+      },
+      "/api/v1/post/my_post": {
+        "get": {
+          "operationId": "findAllUserPost",
+          "parameters": [
+            {
+              "name": "page",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "name": "per_page",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "name": "category_id",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "search",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "from",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "to",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Post Management"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        }
+      },
+      "/api/v1/post/category/{category_id}": {
+        "get": {
+          "operationId": "findAllActive",
+          "parameters": [
+            {
+              "name": "category_id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Post Management"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        }
+      },
+      "/api/v1/post/{id}": {
+        "get": {
+          "operationId": "findOne",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Post Management"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        },
+        "patch": {
+          "operationId": "update",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePostDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Post Management"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        },
+        "delete": {
+          "operationId": "remove",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Post Management"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        }
+      },
+      "/api/v1/voting": {
+        "post": {
+          "operationId": "create",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateVotingDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Voting Management"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        },
+        "get": {
+          "operationId": "findAll",
+          "parameters": [
+            {
+              "name": "page",
+              "required": true,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "name": "per_page",
+              "required": true,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "name": "user_id",
+              "required": true,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "vote_type",
+              "required": true,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Voting Management"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        }
+      },
+      "/api/v1/voting/{id}": {
+        "get": {
+          "operationId": "findOne",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Voting Management"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        }
+      },
+      "/api/v1/comments": {
+        "post": {
+          "operationId": "create",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateCommentDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Comment Management"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        },
+        "get": {
+          "operationId": "findAll",
+          "parameters": [
+            {
+              "name": "page",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "name": "per_page",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "number"
+              }
+            },
+            {
+              "name": "post_id",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "search",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "user_id",
+              "required": false,
+              "in": "query",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Comment Management"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        }
+      },
+      "/api/v1/comments/post/{post_id}": {
+        "get": {
+          "operationId": "findAllActive",
+          "parameters": [
+            {
+              "name": "post_id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Comment Management"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        }
+      },
+      "/api/v1/comments/{id}": {
+        "get": {
+          "operationId": "findOne",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Comment Management"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        },
+        "patch": {
+          "operationId": "update",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateCommentDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Comment Management"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        },
+        "delete": {
+          "operationId": "remove",
+          "parameters": [
+            {
+              "name": "id",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "tags": [
+            "Comment Management"
+          ],
+          "security": [
+            {
+              "bearer": []
+            }
+          ]
+        }
+      }
+    }
+  }

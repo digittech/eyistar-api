@@ -1,0 +1,26 @@
+[
+	{
+		"id" : "1",
+		"role_name" : "Admin",
+		"slug" : "admin",
+		"description" : "Super Admin",
+		"status" : "2",
+		"created_by" : "web-master",
+		"updated_by" : "web-master",
+		"created_at" : "2024-04-27",
+		"updated_at" : "2024-04-27 11:12:10",
+		"timestamp" : "2024-04-27 23:13:52.356748"
+	},
+	{
+		"id" : "2",
+		"role_name" : "User",
+		"slug" : "user",
+		"description" : "Users",
+		"status" : "2",
+		"created_by" : "web-master",
+		"updated_by" : "web-master",
+		"created_at" : "2024-04-27",
+		"updated_at" : "2024-04-27 11:12:10",
+		"timestamp" : "2024-04-27 23:13:52.356748"
+	}
+]
