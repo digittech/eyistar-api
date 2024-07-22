@@ -43,6 +43,9 @@ export class Post {
   @Column('int', { name: 'views', nullable: true, default: 0 })
   views?: number;
 
+  @Column('json', { name: 'tags', nullable: true, default: null })
+  tags?: any;
+
   @Column('enum', { name: 'status', nullable: true, default: 'active', enum: ['active', 'inactive'] })
   status?: string;
 

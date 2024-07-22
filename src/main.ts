@@ -83,7 +83,7 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(
       app,
       new DocumentBuilder()
-      .setTitle('Digit Post Management')
+      .setTitle('Eyistar')
       .setDescription('Post Management')
         .setVersion('1.0')
         .setBasePath(process.env.BASE_PATH)

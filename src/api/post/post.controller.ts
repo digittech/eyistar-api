@@ -51,7 +51,8 @@ export class PostController {
       post_category_id,
       title,
       content,
-      image
+      image,
+      tags
     } = createPostDto;
 
     let now = moment().format();
@@ -75,6 +76,7 @@ export class PostController {
         title,
         content,
         image,
+        tags,
         status: 'active',
         created_at: todatsDate,
         timestamp: timeStamp

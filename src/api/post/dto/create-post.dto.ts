@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  IsArray,
   IsEmail,
   IsEnum,
   IsNumberString,
@@ -32,5 +33,10 @@ export class CreatePostDto {
   @IsString()
   @ApiProperty()
   image: string;
+
+  @IsOptional()
+  @IsArray()
+  @ApiProperty()
+  tags: [];
 
 }
