@@ -267,6 +267,84 @@ export class PostController {
       where: [
         'title',
         'content',
+      ].map((column) => ({post_category_id: Like(`%${category_id}%`), [column]: Like(`%${search}%`) })),
+    }
+
+    const total = await this.postService.postRepository.count(_filter);
+    const posts = await this.postService.postRepository.find({
+                                                                take: perPage,
+                                                                skip: (page - 1) * perPage,
+                                                                where: [
+                                                                  'title',
+                                                                  'content',
+                                                                ].map((column) => ({post_category_id: Like(`%${category_id}%`), [column]: Like(`%${search}%`) })),
+                                                                order: {
+                                                                  created_at: "DESC",
+                                                              },
+    }) ;
+    console.log('posts', posts);
+
+    let allPost = [];
+    for (let index = 0; index < posts.length; index++) {
+      const data = posts[index];
+      let otherDetails =  await this.postService.findOtherDetails(data.id);
+      await allPost.push({
+        id: data.id,
+        category_id: data.post_category_id,
+        user_information: {
+          user_id: data.user_id,
+          username: `${data.user.first_name} ${data.user.last_name}`,
+          user_image: data.user.image,
+          user_email: data.user.email,
+        },
+        category: data.post_category.name,
+        title: data.title,
+        content: data.content,
+        post_image: data.image,
+        views: data.views,
+        tags: data.tags,
+        upvote_count: otherDetails.upvote_count,
+        downvote_count: otherDetails.downvote_count,
+        reply_count: otherDetails.reply_count,
+        status: data.status,
+        created_at: data.created_at,
+        timestamp: data.timestamp,
+      })
+    }
+
+    return success(
+      allPost,
+      'Get All',
+      'All post list',
+      {
+        current_page: _page,
+        next_page: _nextPage > total ? total : _nextPage,
+        prev_page: _prevPage < 1 ? null : _prevPage,
+        per_page: _perPage,
+        total,
+      }
+    );
+  }
+
+  @Get('active')
+  @ApiBearerAuth()
+  async findAllActive(
+    @Query() params: GetAllPostParamsDto,
+  ) {
+    const page = +params.page;
+    const perPage = +params.per_page;
+    const category_id= params.category_id;
+    const search = params.search;
+    const _page = page < 1 ? 1 : page
+    const _nextPage = _page + 1
+    const _prevPage = _page - 1
+    const _perPage = perPage
+    const _filter = {
+      take: perPage,
+      skip: (page - 1) * perPage,
+      where: [
+        'title',
+        'content',
       ].map((column) => ({post_category_id: Like(`%${category_id}%`), status: 'active', [column]: Like(`%${search}%`) })),
     }
 
@@ -329,7 +407,58 @@ export class PostController {
   @Get('category/:category_id')
   @UseGuards(JwtGuard)
   @ApiBearerAuth()
-  async findAllActive(@Param('category_id') category_id: string) {
+  async findAllCategory(@Param('category_id') category_id: string) {
+    try {
+
+      const posts = await this.postService.postRepository.find({
+        where: [{ post_category_id: category_id}],
+      }) ?? null;
+
+      let allPost = [];
+      for (let index = 0; index < posts.length; index++) {
+        const data = posts[index];
+        let otherDetails =  await this.postService.findOtherDetails(data.id);
+        await allPost.push({
+          id: data.id,
+          category_id: data.post_category_id,
+          user_information: {
+            user_id: data.user_id,
+            username: `${data.user.first_name} ${data.user.last_name}`,
+            user_image: data.user.image,
+            user_email: data.user.email,
+          },
+          category: data.post_category.name,
+          title: data.title,
+          content: data.content,
+          post_image: data.image,
+          views: data.views,
+          upvote_count: otherDetails.upvote_count,
+          downvote_count: otherDetails.downvote_count,
+          reply_count: otherDetails.reply_count,
+          status: data.status,
+          created_at: data.created_at,
+          timestamp: data.timestamp,
+        })
+      }
+
+      
+      return success(
+        allPost,
+        'Active Post',
+        'All acive post by category',
+      );
+      
+    } catch (error) {
+
+      throw new HttpException(error.message, 500);
+
+    }
+
+  }
+
+  @Get('active/category/:category_id')
+  @ApiBearerAuth()
+  async findAllActiveCategory(@Param('category_id') category_id: string) {
     try {
 
       const posts = await this.postService.postRepository.find({
@@ -379,7 +508,6 @@ export class PostController {
   }
 
   @Get(':id')
-  @UseGuards(JwtGuard)
   @ApiBearerAuth()
   async findOne(@Param('id') id: string) {
 

@@ -165,7 +165,7 @@ export class PostCategoryController {
   }
 
   @Get('active')
-  @UseGuards(JwtGuard)
+  // @UseGuards(JwtGuard)
   @ApiBearerAuth()
   async findAllActive() {
     try {
@@ -190,7 +190,7 @@ export class PostCategoryController {
   }
 
   @Get(':id')
-  @UseGuards(JwtGuard)
+  // @UseGuards(JwtGuard)
   @ApiBearerAuth()
   async findOne(@Param('id') id: string) {
 
