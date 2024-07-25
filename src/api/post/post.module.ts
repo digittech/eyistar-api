@@ -10,12 +10,13 @@ import { Voting } from '../voting/entities/voting.entity';
 import { VotingService } from '../voting/voting.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServicesModule } from '../../services';
+import { MinioClientService } from 'src/minio-client/minio-client.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Post, PostCategory, Comment, Voting]), ServicesModule],
   controllers: [PostController],
-  providers: [PostService, PostCategoryService, CommentsService, VotingService],
-  exports: [PostService, PostCategoryService, CommentsService, VotingService],
+  providers: [PostService, PostCategoryService, CommentsService, VotingService, MinioClientService],
+  exports: [PostService, PostCategoryService, CommentsService, VotingService, MinioClientService],
 })
 
 export class PostModule {}

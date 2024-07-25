@@ -26,6 +26,7 @@ import { LogRequestMiddleware } from './middlewares/log-request.middleware';
 import { setModuleRef } from './utils/common.util';
 import { ServicesModule } from './services';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { MinioClientModule } from './minio-client/minio-client.module';
 import {
   HeaderResolver,
   I18nJsonParser,
@@ -192,6 +193,7 @@ import { CommentsModule } from './api/comments/comments.module';
       ],
       inject: [ConfigService],
     }),
+    MinioClientModule,
     ServicesModule,
     TerminusModule,
     HealthModule,

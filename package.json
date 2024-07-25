@@ -73,6 +73,7 @@
     "helmet": "^4.6.0",
     "ioredis": "^4.28.5",
     "json-2-csv": "^3.17.0",
+    "minio": "^7.1.1",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
     "mysql2": "^2.2.5",

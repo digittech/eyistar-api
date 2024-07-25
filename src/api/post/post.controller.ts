@@ -16,6 +16,7 @@ import {
   error,
   success,
 } from '../../utils';
+import { MinioClientService } from 'src/minio-client/minio-client.service';
 import { JwtGuard } from '../auth/jwt-strategy/jwt.guard';
 import { GetUser } from '../../decorators';
 import { PostCategoryService } from '../post-category/post-category.service';
@@ -35,12 +36,40 @@ const word:any= '';
 @ApiTags('Post Management')
 @Controller('post')
 export class PostController {
+
+  private readonly bucketName = process.env.MINIO_BUCKET_NAME;
   
   constructor(
   @Inject(forwardRef(() => PostService))
   private readonly postService: PostService,
+  private readonly minioClientService: MinioClientService,
   private readonly postCategoryService: PostCategoryService,
   ) {}
+
+
+  async uploadFileToMinio(data){
+
+    let {
+      base64,
+      image_name,
+      bucket_name
+    } = data;
+
+    const uploadMinio = await this.minioClientService.upload(data);
+
+    console.log(`File uploaded successfully. ${uploadMinio}`);
+
+    const fileUrl = uploadMinio.url;
+    
+    console.log('fileUrl', fileUrl);
+
+    if (uploadMinio) {
+      return {status: 200, message: 'File uploaded successfully', fileUrl: fileUrl};
+    } else {
+      return {status: 404, message: 'File not uploaded', fileUrl: ''};
+    }
+ 
+  }
 
   @Post()
   @UseGuards(JwtGuard)
@@ -68,6 +97,28 @@ export class PostController {
       return error('Failed', 'Looks like the post title already exist');
     }
 
+    let userImage = '';
+    if (image == '') {
+
+        userImage = "https://konnect-minio-api.konnectbd.com/checkbucket/.png_1696887482709.png";
+
+      } else if (image == "https://konnect-minio-api.konnectbd.com/checkbucket/.png_1696887482709.png") {
+
+      userImage = "https://konnect-minio-api.konnectbd.com/checkbucket/.png_1696887482709.png";
+
+      } else{
+      
+        const imageName = `user_${title.replace(' ', "_")}_${post_category_id}`
+
+      let minioData = {
+        base64: image,
+        image_name: imageName+'.png',
+        bucket_name: this.bucketName
+      };
+  
+      userImage = (await this.uploadFileToMinio(minioData)).fileUrl;
+    }
+
     try {
 
       const createdPost = await this.postService.create({
@@ -75,7 +126,7 @@ export class PostController {
         user_id: authUser.id,
         title,
         content,
-        image,
+        image: userImage,
         tags,
         status: 'active',
         created_at: todatsDate,
@@ -96,6 +147,7 @@ export class PostController {
             title: newPost.title,
             content: newPost.content,
             post_image: newPost.image,
+            tags: newPost.tags,
             status: newPost.status,
             created_at: newPost.created_at,
           },
@@ -169,6 +221,7 @@ export class PostController {
         },
         title: data.title,
         content: data.content,
+        tags: data.tags,
         post_image: data.image,
         views: data.views,
         upvote_count: otherDetails.upvote_count,
@@ -249,6 +302,7 @@ export class PostController {
         content: data.content,
         post_image: data.image,
         views: data.views,
+        tags: data.tags,
         upvote_count: otherDetails.upvote_count,
         downvote_count: otherDetails.downvote_count,
         reply_count: otherDetails.reply_count,
