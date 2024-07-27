@@ -4,6 +4,7 @@ import { BufferedFile } from './file.model';
 import * as crypto from 'crypto';
 import { CreateMinioClientDto, CreateMinioCSVDto } from './dto/create-minio-client.dto';
 import { UpdateMinioClientDto } from './dto/update-minio-client.dto';
+import { ConfigService } from '@nestjs/config';
 let Minio = require('minio')
 const converter = require('json-2-csv');
 const puppeteer = require('puppeteer');
@@ -16,22 +17,27 @@ const path = require("path");
 
 @Injectable()
 export class MinioClientService {
+
+  accessKey = this.configService.get('MINIO_ACCESS_KEY');
+  secretKey = this.configService.get('MINIO_SECRET_KEY');
+  endPoint = this.configService.get('MINIO_ENDPOINT');
+  port = this.configService.get('MINIO_PORT');
+  url = this.configService.get('MINIO_URL');
+
   minioClient: any = new Minio.Client({
-    // endPoint: 'play.min.io',
-    // port: 9000,
-    // useSSL: true,
-    // accessKey: 'Q3AM3UQ867SPQQA43P2F',
-    // secretKey: 'zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG',
-        // url: 'https://konnect-minio-api.konnectbd.com',
-    accessKey: 'DSN2A85nJbFuKRjQ',
-    secretKey: 'ji5zvamf0B1SeJNVKOMagSzZbo8KrGW1',
-    endPoint: 'konnect-minio-api.konnectbd.com',
-    port: 80,
+    url: this.url,
+    accessKey: this.accessKey,
+    secretKey: this.secretKey,
+    endPoint: this.endPoint,
+    port: +this.port,
     useSSL: false,
   });
 
-  constructor( 
-  ) {  }
+  constructor(
+    private readonly configService: ConfigService,
+  ) {
+    console.log('accessKey', this.accessKey);
+  }
 
   // constructor( @Inject(MinioService) private readonly minioClient: MinioService,
   // ) {}
