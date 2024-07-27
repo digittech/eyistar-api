@@ -108,11 +108,11 @@ export class PostController {
 
       } else{
       
-        const imageName = `user_${title.replace(' ', "_")}_${post_category_id}`
+        const imageName = `user_${title.replace(' ', "_")}`
 
       let minioData = {
         base64: image,
-        image_name: imageName+'.png',
+        image_name: imageName,
         bucket_name: this.bucketName
       };
   
