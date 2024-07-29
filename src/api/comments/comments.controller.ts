@@ -188,7 +188,7 @@ export class CommentsController {
     );
   }
 
-  @Get(':id')
+  @Get('active/:id')
   @ApiBearerAuth()
   async findOneActive(@Param('id') id: string) {
 
