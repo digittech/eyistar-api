@@ -36,6 +36,9 @@ import {
 
     @Column('int', { name: 'views', nullable: true, default: 0 })
     views?: number;
+
+    @Column('enum', { name: 'status', nullable: true, default: 'active', enum: ['active', 'inactive'] })
+    status?: string;
   
     @CreateDateColumn({ name: 'timestamp' })
     timestamp?: string;
