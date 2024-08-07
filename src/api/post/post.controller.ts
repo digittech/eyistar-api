@@ -81,7 +81,10 @@ export class PostController {
       title,
       content,
       image,
-      tags
+      tags,
+      description,
+      shows_date,
+      end_date,
     } = createPostDto;
 
     let now = moment().format();
@@ -128,6 +131,10 @@ export class PostController {
         content,
         image: userImage,
         tags,
+        description,
+        is_hidden: false,
+        shows_date,
+        end_date,
         status: 'active',
         created_at: todatsDate,
         timestamp: timeStamp
@@ -224,6 +231,10 @@ export class PostController {
         tags: data.tags,
         post_image: data.image,
         views: data.views,
+        description: data.description,
+        is_hidden: data.is_hidden,
+        shows_date: data.shows_date,
+        end_date: data.end_date,
         upvote_count: otherDetails.upvote_count,
         downvote_count: otherDetails.downvote_count,
         reply_count: otherDetails.reply_count,
@@ -303,6 +314,10 @@ export class PostController {
         post_image: data.image,
         views: data.views,
         tags: data.tags,
+        description: data.description,
+        is_hidden: data.is_hidden,
+        shows_date: data.shows_date,
+        end_date: data.end_date,
         upvote_count: otherDetails.upvote_count,
         downvote_count: otherDetails.downvote_count,
         reply_count: otherDetails.reply_count,
@@ -381,6 +396,10 @@ export class PostController {
         post_image: data.image,
         views: data.views,
         tags: data.tags,
+        description: data.description,
+        is_hidden: data.is_hidden,
+        shows_date: data.shows_date,
+        end_date: data.end_date,
         upvote_count: otherDetails.upvote_count,
         downvote_count: otherDetails.downvote_count,
         reply_count: otherDetails.reply_count,
@@ -432,6 +451,10 @@ export class PostController {
           content: data.content,
           post_image: data.image,
           views: data.views,
+          description: data.description,
+          is_hidden: data.is_hidden,
+          shows_date: data.shows_date,
+          end_date: data.end_date,
           upvote_count: otherDetails.upvote_count,
           downvote_count: otherDetails.downvote_count,
           reply_count: otherDetails.reply_count,
@@ -483,6 +506,10 @@ export class PostController {
           content: data.content,
           post_image: data.image,
           views: data.views,
+          description: data.description,
+          is_hidden: data.is_hidden,
+          shows_date: data.shows_date,
+          end_date: data.end_date,
           upvote_count: otherDetails.upvote_count,
           downvote_count: otherDetails.downvote_count,
           reply_count: otherDetails.reply_count,
@@ -539,6 +566,10 @@ export class PostController {
             content: post.content,
             post_image: post.image,
             views: post.views,
+            description: post.description,
+            is_hidden: post.is_hidden,
+            shows_date: post.shows_date,
+            end_date: post.end_date,
             upvote_count: post.upvote_count,
             downvote_count: post.downvote_count,
             reply_count: post.reply_count,
@@ -571,7 +602,11 @@ export class PostController {
       post_category_id,
       title,
       content,
-      image
+      image,
+      description,
+      shows_date,
+      end_date,
+      status
     } = UpdatePostDto;
 
     let now = moment().format();
@@ -594,6 +629,11 @@ export class PostController {
             title,
             content,
             image,
+            description,
+            is_hidden: false,
+            shows_date,
+            end_date,
+            status,
             timestamp: timeStamp
           });
     

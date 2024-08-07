@@ -34,6 +34,9 @@ export class Post {
   @Column('varchar', { name: 'title', nullable: true, length: 200 })
   title?: string;
 
+  @Column('varchar', { name: 'description', nullable: true, length: 200 })
+  description?: string;
+
   @Column('longtext', { name: 'content'})
   content?: string;
 
@@ -46,8 +49,17 @@ export class Post {
   @Column('json', { name: 'tags', nullable: true, default: null })
   tags?: any;
 
+  @Column('boolean', { name: 'is_hidden', nullable: true, default: false })
+  is_hidden?: boolean;
+
   @Column('enum', { name: 'status', nullable: true, default: 'active', enum: ['active', 'inactive'] })
   status?: string;
+
+  @CreateDateColumn({ name: 'shows_date' })
+  shows_date?: string;
+
+  @CreateDateColumn({ name: 'end_date' })
+  end_date?: string;
 
   @CreateDateColumn({ name: 'created_at' })
   created_at?: string;

@@ -1,6 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsArray,
+  IsBoolean,
   IsEmail,
   IsEnum,
   IsNumberString,
@@ -25,6 +26,12 @@ export class CreatePostDto {
   @ApiProperty()
   title: string;
 
+  @IsOptional()
+  @IsString()
+  @Length(1, 200)
+  @ApiProperty()
+  description: string;
+
   @IsString()
   @ApiProperty()
   content: string;
@@ -38,5 +45,13 @@ export class CreatePostDto {
   @IsArray()
   @ApiProperty()
   tags: [];
+
+  @IsString()
+  @ApiProperty()
+  shows_date: string;
+
+  @IsString()
+  @ApiProperty()
+  end_date: string;
 
 }

@@ -24,8 +24,14 @@ export class PostCategory {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column('enum', { name: 'service', nullable: true, default: '', enum: ['', 'blog', 'quote', 'news'] })
+  service?: string;
+
   @Column('varchar', { name: 'name', nullable: true, length: 100 })
   name?: string;
+
+  @Column('varchar', { name: 'slug', nullable: true, length: 100 })
+  slug?: string;
 
   @Column('varchar', { name: 'description', nullable: true, length: 200 })
   description?: string;

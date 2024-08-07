@@ -47,9 +47,15 @@ export class PostCategoryController {
   async create(@Body() createPostCategoryDto: CreatePostCategoryDto, @GetUser() authUser: User) {
 
     let {
+      service,
       name,
       description,
     } = createPostCategoryDto;
+
+    const slug = name.replace(/\w+/g, function(txt) {
+      // uppercase first letter and add rest unchanged
+      return txt.charAt(0).toLocaleLowerCase() + txt.substr(1);
+    }).replace(/\s/g, '_');
 
     const existingServiceCat = await this.postCategoryService.postCategoryRepository.findOne({
       where: [{ name: name }],
@@ -69,6 +75,8 @@ export class PostCategoryController {
       const createdPostCategory = await this.postCategoryService.create({
         name,
         description,
+        service,
+        slug,
         status: 'active',
         created_by: authUser.id,
         created_at: todatsDate,
@@ -82,6 +90,7 @@ export class PostCategoryController {
         return success(
           {
             id: newPostCategory.id,
+            service: newPostCategory.service,
             name: newPostCategory.name,
             description: newPostCategory.description,
             status: newPostCategory.status,
@@ -145,6 +154,8 @@ export class PostCategoryController {
         return {
           id: data.id,
           name: data.name,
+          service: data.service,
+          slug: data.slug,
           description: data.description,
           status: data.status,
           created_by: data.created_by,
@@ -171,7 +182,7 @@ export class PostCategoryController {
     try {
 
       const categories = await this.postCategoryService.postCategoryRepository.find({
-        select: ['id', 'name', 'description', 'timestamp'],
+        select: ['id', 'name', 'service', 'slug', 'description', 'timestamp'],
         where: [{ status: 'active' }],
       }) ?? null;
       
@@ -179,6 +190,31 @@ export class PostCategoryController {
         categories ?? null,
         'Get All Actives',
         'Active post categories',
+      );
+      
+    } catch (error) {
+
+      throw new HttpException(error.message, 500);
+
+    }
+
+  }
+
+  @Get('active/:service')
+  // @UseGuards(JwtGuard)
+  @ApiBearerAuth()
+  async findAllActiveService(@Param('service') service: string) {
+    try {
+
+      const categories = await this.postCategoryService.postCategoryRepository.find({
+        select: ['id', 'name', 'service', 'slug', 'description', 'timestamp'],
+        where: [{ status: 'active', service: service}],
+      }) ?? null;
+      
+      return success(
+        categories ?? null,
+        'Get All Actives Service',
+        'Service active post categories',
       );
       
     } catch (error) {
@@ -220,15 +256,53 @@ export class PostCategoryController {
     }
   }
 
+  @Get('slug/:slug')
+  // @UseGuards(JwtGuard)
+  @ApiBearerAuth()
+  async findBySlug(@Param('slug') slug: string) {
+
+    try {
+
+      let category = await this.postCategoryService.postCategoryRepository.findOne({where: {slug}});
+
+      if (category) {
+
+        return success(
+          category ? {
+            ...category
+          } : null,
+          'Get details by ID',
+          'Post slug details',
+        );
+        
+      } else {
+
+        return error('failed', 'Category not found');
+
+      }
+
+    } catch (error) {
+
+      throw new HttpException(error.message, 500);
+    }
+  }
+
   @Patch(':id')
   @UseGuards(JwtGuard)
   @ApiBearerAuth()
   async update(@Param('id') id: string, @Body() updatePostCategoryDto: UpdatePostCategoryDto, @GetUser() authUser: User) {
 
     let {
+      service,
       name,
       description,
+      status
     } = updatePostCategoryDto;
+
+    const slug = name.replace(/\w+/g, function(txt) {
+      // uppercase first letter and add rest unchanged
+      return txt.charAt(0).toLocaleLowerCase() + txt.substr(1);
+    }).replace(/\s/g, '_');
 
     let now = moment().format();
     let timeStamp = moment(new Date().getTime()).format("YYYY-MM-DD HH:mm:ss.SSS");
@@ -242,7 +316,10 @@ export class PostCategoryController {
         const updated = await this.postCategoryService.update(id, 
           { 
             name,
+            service,
+            slug,
             description,
+            status,
             updated_by: authUser.id,
             updated_at: todatsDate,
             timestamp: timeStamp

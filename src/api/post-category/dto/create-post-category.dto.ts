@@ -11,9 +11,14 @@ import { IsName } from '../../../utils/validation.util';
 
 export class CreatePostCategoryDto {
 
-@IsOptional()
+  @IsOptional()
+  @IsEnum(['', 'blog', 'quote', 'news'])
+  @ApiProperty()
+  service: string;
+
+  @IsOptional()
   @IsString()
-  @Length(1, 52)
+  @Length(1, 100)
   @ApiProperty()
   name: string;
 
