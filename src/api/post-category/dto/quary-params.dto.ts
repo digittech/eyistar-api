@@ -8,7 +8,7 @@ export class GetAllPostCategoryParamsDto {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  per_page: number = 12;
+  per_page: number = 20;
 
   @ApiProperty({ required: false })
   @IsOptional()
