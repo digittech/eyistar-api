@@ -57,9 +57,6 @@ class EnvironmentVariables {
   @Length(32, 32)
   ENCRYPTION_KEY: string
 
-  @IsNumber()
-  OTP_EXPIRY_DURATION: number
-
   @IsString()
   I18N_LANG: string
 
