@@ -61,34 +61,10 @@ class EnvironmentVariables {
   OTP_EXPIRY_DURATION: number
 
   @IsString()
-  NEVER_BOUNCE_API_KEY: string
-
-  @IsString()
-  REDIS_HOST: string
-
-  @IsNumber()
-  REDIS_PORT: number
-
-  @IsString()
-  REDIS_PASS: string
-
-  @IsNumber()
-  REDIS_DB: number
-
-  @IsString()
   I18N_LANG: string
 
   @IsString()
   I18N_SOURCE: string
-
-  @IsString()
-  DOCUMENT_BASE_URL: string
-
-  @IsString()
-  BVN_URL: string
-
-  @IsString()
-  PWA_BASE_URL: string
 
   @IsOptional()
   @IsIn([
