@@ -33,7 +33,7 @@ import {
   I18nModule,
   QueryResolver,
 } from 'nestjs-i18n';
-import { IoRedisModule } from './io-redis';
+// import { IoRedisModule } from './io-redis';
 import * as path from 'path';
 import { SelectLanguageMiddleware } from './middlewares/select-language.middleware';
 import { I18nRedisResolverService } from './services/i18n-redis-resolver/i18n-redis-resolver.service';
@@ -199,7 +199,7 @@ import { CommentsModule } from './api/comments/comments.module';
     HealthModule,
     AuthModule,
     UserModule,
-    IoRedisModule,
+    // IoRedisModule,
     AppModule,
     PostCategoryModule,
     PostModule,
