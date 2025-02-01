@@ -98,10 +98,10 @@ async function bootstrap() {
       swaggerOptions: { 
         persistAuthorization: true,
       },
-      customSiteTitle: 'Post Management',
+      customSiteTitle: 'Eyistar',
     });
   const configService = app.get(ConfigService);
-  await app.listen(configService.get('PORT', 3005), '0.0.0.0');
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
 
